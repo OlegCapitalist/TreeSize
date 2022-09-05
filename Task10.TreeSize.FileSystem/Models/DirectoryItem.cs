@@ -8,7 +8,17 @@ public class DirectoryItem : FileSystemItem
         
     }
 
-    public override int FileCount { get; }
-    public override int FolderCount { get; }
+    public DirectoryItem(DirectoryInfo directoryInfo)
+        : base(directoryInfo, FileSystemItemType.Folder)
+    {
+
+    }
+
+    //public override int FileCount { get; }
+    //public override int FolderCount { get; }
+
+    public override int FileCount => FileSystemItems.Where(item => item.ItemType == FileSystemItemType.File).ToList().Count;
+    public override int FolderCount => FileSystemItems.Where(item => item.ItemType == FileSystemItemType.Folder).ToList().Count;
+
     public override long Size { get; }
 }

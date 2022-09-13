@@ -4,5 +4,5 @@ namespace Task10.TreeSize.FileSystem.Services;
 
 public interface IFileSystemService
 {
-    Task<IEnumerable<FileSystemItem>> GetFileSystemItemsAsync(string path);
+    Task<DirectoryItem> GetFileSystemItemsAsync(string path, CancellationToken cancellationToken);
 }

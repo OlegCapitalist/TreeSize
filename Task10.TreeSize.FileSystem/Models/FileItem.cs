@@ -1,10 +1,12 @@
-﻿namespace Task10.TreeSize.FileSystem.Models;
+﻿using Task10.TreeSize.FileSystem.Wrappers.FileInfoWrappers;
 
-internal class FileItem : FileSystemItem
+namespace Task10.TreeSize.FileSystem.Models;
+
+public class FileItem : FileSystemItem
 {
-    private readonly FileInfo _fileInfo;
+    private readonly IFileInfo _fileInfo;
 
-    public FileItem(FileInfo fileInfo) : base(fileInfo, FileSystemItemType.File)
+    public FileItem(IFileInfo fileInfo) : base(fileInfo, FileSystemItemType.File)
     {
         _fileInfo = fileInfo;
     }

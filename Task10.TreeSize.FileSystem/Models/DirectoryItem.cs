@@ -1,24 +1,46 @@
-﻿namespace Task10.TreeSize.FileSystem.Models;
+﻿using Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers;
+
+
+namespace Task10.TreeSize.FileSystem.Models;
 
 public class DirectoryItem : FileSystemItem
 {
-    public DirectoryItem(DirectoryInfo directoryInfo, IEnumerable<FileSystemItem> fileSystemItems) 
+    public DirectoryItem(IDirectoryInfo directoryInfo, IEnumerable<FileSystemItem> fileSystemItems)
         : base(directoryInfo, FileSystemItemType.Folder, fileSystemItems)
     {
-        
+        var (fileCount, folderCount, size) = GetCalculatedProperties();
+
+        FileCount = fileCount;
+        FolderCount = folderCount;
+        Size = size;
     }
 
-    public DirectoryItem(DirectoryInfo directoryInfo)
-        : base(directoryInfo, FileSystemItemType.Folder)
-    {
-
-    }
-
-    //public override int FileCount { get; }
-    //public override int FolderCount { get; }
-
-    public override int FileCount => FileSystemItems.Where(item => item.ItemType == FileSystemItemType.File).ToList().Count;
-    public override int FolderCount => FileSystemItems.Where(item => item.ItemType == FileSystemItemType.Folder).ToList().Count;
-
+    public override int FileCount { get; }
+    public override int FolderCount { get; }
     public override long Size { get; }
+
+    private (int FileCount, int FolderCount, long Size) GetCalculatedProperties()
+    {
+        int fileCount = 0;
+        int folderCount = 0;
+        long size = 0;
+
+        foreach (var fileSystemItem in FileSystemItems)
+        {
+            if (fileSystemItem.ItemType == FileSystemItemType.Folder)
+            {
+                folderCount++;
+            }
+            else
+            {
+                fileCount++;
+            }
+
+            fileCount += fileSystemItem.FileCount;
+            folderCount += fileSystemItem.FolderCount;
+            size += fileSystemItem.Size;
+        }
+
+        return (fileCount, folderCount, size);
+    }
 }

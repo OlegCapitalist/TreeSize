@@ -1,58 +1,47 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.IO;
 using Task10.TreeSize.FileSystem.Models;
+using Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers;
+using Task10.TreeSize.FileSystem.Wrappers.FileInfoWrappers;
 
 namespace Task10.TreeSize.FileSystem.Services;
 
 public class FileSystemService : IFileSystemService
 {
-    public async Task<IEnumerable<FileSystemItem>> GetFileSystemItemsAsync(string path)
+    public async Task<DirectoryItem> GetFileSystemItemsAsync(string path, CancellationToken cancellationToken)
     {
-        var directoryInfo = new DirectoryInfo(path);
+        var directoryInfo = new DirectoryInfoWrapper(new DirectoryInfo(path));
 
         if (!directoryInfo.Exists)
         {
             throw new DirectoryNotFoundException($"Directory was not found. Path: {path}");
         }
 
-        //var result = await GetFileSystemItemsRecursiveAsync(directoryInfo);
-
-        var directoryItem = new DirectoryItem(directoryInfo);
-
-        var result = new ConcurrentBag<FileSystemItem>();// На выходе мы должны получить коллекцию с одним элементом. В котором будут вложены другие элементы
-        directoryItem.FileSystemItems = await GetFileSystemItemsRecursiveAsync(directoryItem);//Почему свойство FileSystemItems мы сделали get?
-
-        result.Add(directoryItem);
-
-        return result;
+        var childrenItems = await GetFileSystemItemsRecursiveAsync(directoryInfo, cancellationToken);
+        return new DirectoryItem(directoryInfo, childrenItems);
     }
 
-    //private static async Task<IEnumerable<FileSystemItem>> GetFileSystemItemsRecursiveAsync(DirectoryInfo directoryInfo)
-    private static async Task<IEnumerable<FileSystemItem>> GetFileSystemItemsRecursiveAsync(DirectoryItem directoryItem)  //Так и не понял, почему метод static, а не private
+    private async Task<IEnumerable<FileSystemItem>> GetFileSystemItemsRecursiveAsync(IDirectoryInfo directoryInfo, CancellationToken cancellationToken)
     {
-
-        //var fileInfos = directoryInfo.GetFiles();
-        //var directoryInfos = directoryInfo.GetDirectories();
-
-        var fileInfos = Directory.GetFiles(directoryItem.FullName);
-        var directoryInfos = Directory.GetDirectories(directoryItem.FullName);
+        var fileInfos = directoryInfo.GetFiles();
+        var directoryInfos = directoryInfo.GetDirectories();
 
         var output = new ConcurrentBag<FileSystemItem>();
 
         foreach (var fileInfo in fileInfos)
-        {
-            var fileItem = new FileItem(new FileInfo(fileInfo));
-            output.Add(fileItem);
-            directoryItem.Size += fileItem.Size;//Как будем считать размер, если свойство Size - get?
-        }
+            output.Add(new FileItem(new FileInfoWrapper(fileInfo)));
 
-        await Parallel.ForEachAsync(directoryInfos, async (info, _) =>
+        await Parallel.ForEachAsync(directoryInfos, cancellationToken, async (info, token) =>
         {
+            //token.ThrowIfCancellationRequested();// Мне нужна не ошибка, а остановка
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
             try
             {
-                var childrenItems = await GetFileSystemItemsRecursiveAsync(info);
-                output.Add(new DirectoryItem(info, childrenItems));
+                var fileInfo = new DirectoryInfoWrapper(info);
+                var childrenItems = await GetFileSystemItemsRecursiveAsync(fileInfo, token);
+                output.Add(new DirectoryItem(fileInfo, childrenItems));
             }
             catch (UnauthorizedAccessException exception)
             {

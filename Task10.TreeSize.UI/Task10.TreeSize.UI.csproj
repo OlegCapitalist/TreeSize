@@ -5,10 +5,47 @@
         <TargetFramework>net6.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Task10.TreeSize.FileSystem\Task10.TreeSize.FileSystem.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="View\Img\" />
+    </ItemGroup>
+
+	<!--<ItemGroup>
+		<None Remove="View\Img\300.png" />
+		<None Remove="View\Img\commands_300.png" />
+		<None Remove="View\Img\300.png" />
+		<None Remove="View\Img\Open_300.png" />
+		<None Remove="View\Img\percentage.jpg" />
+		<None Remove="View\Img\PivotTableImages_300.png" />
+		<None Remove="View\Img\Search_300.png" />
+		<None Remove="View\Img\sortdesc_300.png" />
+		<None Remove="View\Img\sort_300.png" />
+		<None Remove="View\Img\tbglacti_300.png" />
+		<None Remove="View\Img\tbgledit_300_ltr.png" />
+		<None Remove="View\Img\Update_300.png" />
+	</ItemGroup>-->
+
+    <ItemGroup>
+      <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    </ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="View\Img\300.png" />
+		<Resource Include="View\Img\commands_300.png" />
+		<Resource Include="View\Img\Open_300.png" />
+		<Resource Include="View\Img\percentage.jpg" />
+		<Resource Include="View\Img\PivotTableImages_300.png" />
+		<Resource Include="View\Img\Search_300.png" />
+		<Resource Include="View\Img\sortdesc_300.png" />
+		<Resource Include="View\Img\sort_300.png" />
+		<Resource Include="View\Img\tbglacti_300.png" />
+		<Resource Include="View\Img\tbgledit_300_ltr.png" />
+		<Resource Include="View\Img\Update_300.png" />
+	</ItemGroup>
 </Project>

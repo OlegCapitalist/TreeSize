@@ -3,7 +3,7 @@ using System.Windows;
 using Task10.TreeSize.FileSystem.Services;
 using Prism.Unity;
 
-namespace Task10.TreeSize.UI.View
+namespace Task10.TreeSize.UI.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

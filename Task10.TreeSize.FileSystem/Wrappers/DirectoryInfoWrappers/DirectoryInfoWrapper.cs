@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task10.TreeSize.FileSystem.Wrappers.FileSystemInfoWrappers;
+using Task10.TreeSize.FileSystem.Wrappers.FileInfoWrappers;
 
 namespace Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers
 {
@@ -16,8 +17,14 @@ namespace Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers
             _directoryInfo = directoryInfo;
         }
 
-        public IEnumerable<FileInfo> GetFiles() => _directoryInfo.GetFiles();
+        public IEnumerable<IFileInfo> GetFiles()
+        {
+            return _directoryInfo.GetFiles().Select(x => new FileInfoWrapper(x));
+        }
 
-        public IEnumerable<DirectoryInfo> GetDirectories() => _directoryInfo.GetDirectories();
+        public IEnumerable<IDirectoryInfo> GetDirectories()
+        {
+            return _directoryInfo.GetDirectories().Select(x => new DirectoryInfoWrapper(x));
+        }
     }
 }

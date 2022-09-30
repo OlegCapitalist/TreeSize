@@ -1,12 +1,12 @@
-﻿using Task10.TreeSize.FileSystem.Wrappers.FileSystemInfoWrappers;
+﻿using Task10.TreeSize.FileSystem.Wrappers.FileInfoWrappers;
+using Task10.TreeSize.FileSystem.Wrappers.FileSystemInfoWrappers;
 
 namespace Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers
 {
     public interface IDirectoryInfo : IFileSystemInfo
     {
-        IEnumerable<FileInfo> GetFiles();
+        IEnumerable<IFileInfo> GetFiles();
 
-        IEnumerable<DirectoryInfo> GetDirectories();
-
+        IEnumerable<IDirectoryInfo> GetDirectories();
     }
 }

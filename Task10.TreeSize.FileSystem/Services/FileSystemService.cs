@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using Task10.TreeSize.FileSystem.Models;
+using Task10.TreeSize.FileSystem.Factories;
 using Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers;
 using Task10.TreeSize.FileSystem.Wrappers.FileInfoWrappers;
 
@@ -8,9 +9,16 @@ namespace Task10.TreeSize.FileSystem.Services;
 
 public class FileSystemService : IFileSystemService
 {
+    private readonly IDirectoryInfoFactory _directoryInfoFactory;
+
+    public FileSystemService(IDirectoryInfoFactory directoryInfoFactory)
+    {
+        _directoryInfoFactory = directoryInfoFactory;
+    }
+
     public async Task<DirectoryItem> GetFileSystemItemsAsync(string path, CancellationToken cancellationToken)
     {
-        var directoryInfo = new DirectoryInfoWrapper(new DirectoryInfo(path));
+        var directoryInfo = _directoryInfoFactory.CreateDirectoryInfo(path);
 
         if (!directoryInfo.Exists)
         {
@@ -29,19 +37,21 @@ public class FileSystemService : IFileSystemService
         var output = new ConcurrentBag<FileSystemItem>();
 
         foreach (var fileInfo in fileInfos)
-            output.Add(new FileItem(new FileInfoWrapper(fileInfo)));
-
-        await Parallel.ForEachAsync(directoryInfos, cancellationToken, async (info, token) =>
         {
-            //token.ThrowIfCancellationRequested();// Мне нужна не ошибка, а остановка
+            output.Add(new FileItem(fileInfo));
+        }
+
+        await Parallel.ForEachAsync(directoryInfos, cancellationToken, async (DirInfo, token) =>
+        {
             if (cancellationToken.IsCancellationRequested)
+            {
                 return;
+            }
 
             try
             {
-                var fileInfo = new DirectoryInfoWrapper(info);
-                var childrenItems = await GetFileSystemItemsRecursiveAsync(fileInfo, token);
-                output.Add(new DirectoryItem(fileInfo, childrenItems));
+                var childrenItems = await GetFileSystemItemsRecursiveAsync(DirInfo, token);
+                output.Add(new DirectoryItem(DirInfo, childrenItems));
             }
             catch (UnauthorizedAccessException exception)
             {

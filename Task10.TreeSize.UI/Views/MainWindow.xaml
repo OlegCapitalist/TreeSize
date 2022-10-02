@@ -72,8 +72,10 @@
             <TreeView x:Name="DirectoryTree" ItemsSource="{Binding FileSystemItems}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding FileSystemItems}">
-                        <!--<TextBlock Text="{Binding Name}"/>-->
-                        <TextBox x:Name="Name" Text="{Binding Name}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Size}"/>
+                        </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>

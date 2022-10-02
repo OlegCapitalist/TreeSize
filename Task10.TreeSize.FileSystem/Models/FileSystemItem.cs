@@ -23,6 +23,9 @@ namespace Task10.TreeSize.FileSystem.Models
         public virtual int FileCount => 0;
         public virtual int FolderCount => 0;
         public virtual long Size => 0;
+
+        public long ParrentSize = 0;
+
         public IEnumerable<FileSystemItem> FileSystemItems { get; }
     }
 }

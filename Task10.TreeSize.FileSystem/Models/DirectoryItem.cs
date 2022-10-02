@@ -41,6 +41,16 @@ public class DirectoryItem : FileSystemItem
             size += fileSystemItem.Size;
         }
 
+        NotifyChildrenItems();
+
         return (fileCount, folderCount, size);
+    }
+
+    private void NotifyChildrenItems()
+    {
+        foreach (var fileSystemItem in FileSystemItems)
+        {
+            fileSystemItem.ParrentSize = Size;
+        }
     }
 }

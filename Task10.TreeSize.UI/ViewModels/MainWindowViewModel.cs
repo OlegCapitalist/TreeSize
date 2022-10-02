@@ -31,6 +31,7 @@ namespace Task10.TreeSize.UI.ViewModels
         }
         
         public ICommand ChoseDirCommand { get; set; } 
+        // Почему я не могу сделать так?
         //    = new DelegateCommand(() =>
         //{
         //    var dialog = new FolderBrowserDialog();
@@ -48,8 +49,8 @@ namespace Task10.TreeSize.UI.ViewModels
 
         private async Task LoadFIleSystemTree(string path)
         {
-            var items = await _fileSystemService.GetFileSystemItemsAsync(path, _cancellationTokenSource.Token);
-            FileSystemItems = new ObservableCollection<FileSystemItem>(items.FileSystemItems);
+            var tree = await _fileSystemService.GetFileSystemItemsAsync(path, _cancellationTokenSource.Token);
+            FileSystemItems = new ObservableCollection<FileSystemItem>() { tree };
         }
 
         private void AssignCommands()
@@ -78,4 +79,5 @@ namespace Task10.TreeSize.UI.ViewModels
 
     }
 }
+
 

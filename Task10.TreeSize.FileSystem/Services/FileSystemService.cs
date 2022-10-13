@@ -41,7 +41,8 @@ public class FileSystemService : IFileSystemService
             output.Add(new FileItem(fileInfo));
         }
 
-        var task = Parallel.ForEachAsync(directoryInfos, cancellationToken, async (DirInfo, token) =>
+        await Parallel.ForEachAsync(directoryInfos, cancellationToken, async (DirInfo, token) =>
+        //var task = Parallel.ForEachAsync(directoryInfos, cancellationToken, async (DirInfo, token) =>
         {
             if (cancellationToken.IsCancellationRequested)
             {

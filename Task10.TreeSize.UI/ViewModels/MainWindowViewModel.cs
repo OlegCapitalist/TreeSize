@@ -19,6 +19,8 @@ namespace Task10.TreeSize.UI.ViewModels
     {
         private readonly IFileSystemService _fileSystemService;
 
+        private string _path;
+
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public ObservableCollection<FileSystemItem> FileSystemItems { get; set; } = new ObservableCollection<FileSystemItem>();
@@ -45,6 +47,8 @@ namespace Task10.TreeSize.UI.ViewModels
 
         public ICommand StopScanCommand { get; set; }
 
+        public ICommand RefreshCommand { get; set; }
+
         public ICommand ExitCommand { get; set; }
 
         private async Task LoadFIleSystemTree(string path)
@@ -61,9 +65,19 @@ namespace Task10.TreeSize.UI.ViewModels
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    LoadFIleSystemTree(dialog.SelectedPath);
+                    _path = dialog.SelectedPath;
+                    //RefreshCommand.Execute(); //Какой тут параметр может быть?
+                    LoadFIleSystemTree(_path);
                 }
 
+            });
+
+            RefreshCommand = new DelegateCommand(() =>
+            {
+                if (_path != String.Empty)
+                {
+                    LoadFIleSystemTree(_path);
+                }
             });
 
             StopScanCommand = new DelegateCommand(() =>

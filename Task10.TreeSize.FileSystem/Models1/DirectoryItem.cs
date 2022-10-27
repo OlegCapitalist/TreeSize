@@ -1,12 +1,12 @@
 ﻿using Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers;
 
 
-namespace Task10.TreeSize.FileSystem.Models;
+namespace Task10.TreeSize.FileSystem.Models1;
 
 public class DirectoryItem : FileSystemItem
 {
-    public DirectoryItem(IDirectoryInfo directoryInfo, FileSystemItem parrent = null)
-        : base(directoryInfo, FileSystemItemType.Folder, parrent)
+    public DirectoryItem(IDirectoryInfo directoryInfo, IEnumerable<FileSystemItem> fileSystemItems)
+        : base(directoryInfo, FileSystemItemType.Folder, fileSystemItems)
     {
         var (fileCount, folderCount, size) = GetCalculatedProperties();
 
@@ -17,8 +17,7 @@ public class DirectoryItem : FileSystemItem
 
     public override int FileCount { get; }
     public override int FolderCount { get; }
-
-    public override IEnumerable<FileSystemItem> FileSystemItems { get; set; }
+    public override long Size { get; }
 
     private (int FileCount, int FolderCount, long Size) GetCalculatedProperties()
     {
@@ -42,7 +41,16 @@ public class DirectoryItem : FileSystemItem
             size += fileSystemItem.Size;
         }
 
+        NotifyChildrenItems();
+
         return (fileCount, folderCount, size);
     }
 
+    private void NotifyChildrenItems()
+    {
+        foreach (var fileSystemItem in FileSystemItems)
+        {
+            fileSystemItem.ParrentSize = Size;
+        }
+    }
 }

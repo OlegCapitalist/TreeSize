@@ -1,20 +1,21 @@
 ﻿using Task10.TreeSize.FileSystem.Wrappers.FileSystemInfoWrappers;
 
-namespace Task10.TreeSize.FileSystem.Models
+namespace Task10.TreeSize.FileSystem.Models1
 {
     public abstract class FileSystemItem
     {
         private readonly IFileSystemInfo _fileSystemInfo;
-        private long _size = 0;
 
         public FileSystemItem(
             IFileSystemInfo fileSystemInfo,
             FileSystemItemType itemType,
-            FileSystemItem parrent = null)
+            IEnumerable<FileSystemItem>? fileSystemItems = null,
+            FileSystemItem? parrent = null)
         {
             _fileSystemInfo = fileSystemInfo;
 
             ItemType = itemType;
+            FileSystemItems = fileSystemItems ?? new List<FileSystemItem>();
             Parrent = parrent;
         }
 
@@ -23,28 +24,12 @@ namespace Task10.TreeSize.FileSystem.Models
         public string FullName => _fileSystemInfo.FullName;
         public virtual int FileCount => 0;
         public virtual int FolderCount => 0;
+        public virtual long Size => 0;
 
-        public long Size 
-        { 
-            get
-            {
-                return _size;
-            }
-            set
-            {
-                _size = value;
+        public FileSystemItem Parrent { get;}
+        //public long ParrentSize => Parrent.Size;
+        public long ParrentSize { get; set; }
 
-                if (Parrent != null)
-                {
-                    Parrent.Size += value;
-                }
-                
-            }
-        }
-
-        public FileSystemItem Parrent { get; }
-
-        public virtual IEnumerable<FileSystemItem> FileSystemItems { get; set; } = null;
-       
+        public IEnumerable<FileSystemItem> FileSystemItems { get; }
     }
 }

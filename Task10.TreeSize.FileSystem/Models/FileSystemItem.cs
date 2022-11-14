@@ -1,25 +1,49 @@
-﻿namespace Task10.TreeSize.FileSystem.Models;
+﻿using Task10.TreeSize.FileSystem.Wrappers.FileSystemInfoWrappers;
 
-public abstract class FileSystemItem
+namespace Task10.TreeSize.FileSystem.Models
 {
-    private readonly FileSystemInfo _fileSystemInfo;
-
-    public FileSystemItem(
-        FileSystemInfo fileSystemInfo,
-        FileSystemItemType itemType,
-        IEnumerable<FileSystemItem>? fileSystemItems = null)
+    public abstract class FileSystemItem
     {
-        _fileSystemInfo = fileSystemInfo;
-        
-        ItemType = itemType;
-        FileSystemItems = fileSystemItems ?? new List<FileSystemItem>();
-    }
+        private readonly IFileSystemInfo _fileSystemInfo;
+        private long _size = 0;
 
-    public FileSystemItemType ItemType { get; }
-    public string Name => _fileSystemInfo.Name;
-    public string FullName => _fileSystemInfo.FullName;
-    public virtual int FileCount => 0;
-    public virtual int FolderCount => 0;
-    public virtual long Size => 0;
-    public IEnumerable<FileSystemItem> FileSystemItems { get; }
+        public FileSystemItem(
+            IFileSystemInfo fileSystemInfo,
+            FileSystemItemType itemType,
+            FileSystemItem parrent = null)
+        {
+            _fileSystemInfo = fileSystemInfo;
+
+            ItemType = itemType;
+            Parrent = parrent;
+        }
+
+        public FileSystemItemType ItemType { get; }
+        public string Name => _fileSystemInfo.Name;
+        public string FullName => _fileSystemInfo.FullName;
+        public virtual int FileCount => 0;
+        public virtual int FolderCount => 0;
+
+        public long Size 
+        { 
+            get
+            {
+                return _size;
+            }
+            set
+            {
+                _size = value;
+
+                if (Parrent != null)
+                {
+                    Parrent.Size += value;
+                }
+            }
+        }
+
+        public FileSystemItem Parrent { get; }
+
+        public virtual IEnumerable<FileSystemItem> FileSystemItems { get; set; } = null;
+       
+    }
 }

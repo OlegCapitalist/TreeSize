@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task10.TreeSize.UI", "Task10.TreeSize.UI\Task10.TreeSize.UI.csproj", "{0E8BD4A5-CAF2-4C4C-A2C3-584109967BF0}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task10.TreeSize.UI", "Task10.TreeSize.UI\Task10.TreeSize.UI.csproj", "{0E8BD4A5-CAF2-4C4C-A2C3-584109967BF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task10.TreeSize.FileSystem", "Task10.TreeSize.FileSystem\Task10.TreeSize.FileSystem.csproj", "{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task10.TreeSize.FileSystem", "Task10.TreeSize.FileSystem\Task10.TreeSize.FileSystem.csproj", "{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +21,11 @@ Global
 		{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B396CF65-8F73-44E5-9C95-C64BE74700E6}
 	EndGlobalSection
 EndGlobal

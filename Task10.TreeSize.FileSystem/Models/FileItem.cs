@@ -1,13 +1,16 @@
-﻿namespace Task10.TreeSize.FileSystem.Models;
+﻿using Task10.TreeSize.FileSystem.Wrappers.FileInfoWrappers;
 
-internal class FileItem : FileSystemItem
+namespace Task10.TreeSize.FileSystem.Models;
+
+public class FileItem : FileSystemItem
 {
-    private readonly FileInfo _fileInfo;
+    private readonly IFileInfo _fileInfo;
 
-    public FileItem(FileInfo fileInfo) : base(fileInfo, FileSystemItemType.File)
+    public FileItem(IFileInfo fileInfo, FileSystemItem parrent = null) : base(fileInfo, FileSystemItemType.File, parrent)
     {
         _fileInfo = fileInfo;
+
+        Size = _fileInfo.Length;
     }
 
-    public override long Size => _fileInfo.Length;
 }

@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task10.TreeSize.UI", "Task1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task10.TreeSize.FileSystem", "Task10.TreeSize.FileSystem\Task10.TreeSize.FileSystem.csproj", "{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task10.TreeSize.TestConsole", "Task10.TreeSize.TestConsole\Task10.TreeSize.TestConsole.csproj", "{42B307EA-6081-4AC2-975E-A55964165929}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DBAB9F9-ED8E-4122-9785-9F7FEBB041B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42B307EA-6081-4AC2-975E-A55964165929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42B307EA-6081-4AC2-975E-A55964165929}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42B307EA-6081-4AC2-975E-A55964165929}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42B307EA-6081-4AC2-975E-A55964165929}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

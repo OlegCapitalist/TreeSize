@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using Task10.TreeSize.FileSystem.Services;
-using Prism.Unity;
+﻿using System.Windows;
 
 namespace Task10.TreeSize.UI.Views
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Task10.TreeSize.FileSystem.Wrappers.FileSystemInfoWrappers;
+﻿using Task10.TreeSize.FileSystem.Wrappers.FileSystemInfoWrappers;
 using Task10.TreeSize.FileSystem.Wrappers.FileInfoWrappers;
 
 namespace Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers
@@ -15,16 +10,38 @@ namespace Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers
         public DirectoryInfoWrapper(DirectoryInfo directoryInfo) : base(directoryInfo)
         {
             _directoryInfo = directoryInfo;
+
+            Parent = _directoryInfo.Parent == null
+                ? null
+                : new DirectoryInfoWrapper(new DirectoryInfo(_directoryInfo.Parent.FullName));
         }
+
+        public IDirectoryInfo? Parent { get; }
 
         public IEnumerable<IFileInfo> GetFiles()
         {
-            return _directoryInfo.GetFiles().Select(x => new FileInfoWrapper(x));
+            var enumerateOptions = new EnumerationOptions
+            {
+                IgnoreInaccessible = true
+            };
+
+            return _directoryInfo
+                .EnumerateFiles("*", enumerateOptions)
+                .Select(fileInfo => new FileInfoWrapper(fileInfo))
+                .ToList();
         }
 
         public IEnumerable<IDirectoryInfo> GetDirectories()
         {
-            return _directoryInfo.GetDirectories().Select(x => new DirectoryInfoWrapper(x));
+            var enumerateOptions = new EnumerationOptions
+            {
+                IgnoreInaccessible = true
+            };
+
+            return _directoryInfo
+                .EnumerateDirectories("*", enumerateOptions)
+                .Select(directoryInfo => new DirectoryInfoWrapper(directoryInfo))
+                .ToList();
         }
     }
 }

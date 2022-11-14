@@ -1,4 +1,4 @@
-﻿namespace Task10.TreeSize.FileSystem.Models1;
+﻿namespace Task10.TreeSize.UI.Models;
 
 public enum FileSystemItemType
 {

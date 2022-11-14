@@ -5,8 +5,9 @@ namespace Task10.TreeSize.FileSystem.Wrappers.DirectoryInfoWrappers
 {
     public interface IDirectoryInfo : IFileSystemInfo
     {
-        IEnumerable<IFileInfo> GetFiles();
+        IDirectoryInfo? Parent { get; }
 
+        IEnumerable<IFileInfo> GetFiles();
         IEnumerable<IDirectoryInfo> GetDirectories();
     }
 }

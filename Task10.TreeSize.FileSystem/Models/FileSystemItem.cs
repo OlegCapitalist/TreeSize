@@ -38,7 +38,6 @@ namespace Task10.TreeSize.FileSystem.Models
                 {
                     Parrent.Size += value;
                 }
-                
             }
         }
 
